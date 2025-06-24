@@ -36,6 +36,22 @@
    -Initialise Git 
     git init
    -Ajoute un .gitignore à la racine 
-   - Ajoute tous les fichiers au commit  
+   -Ajoute tous les fichiers au commit  
     git add .
     git commit -m "Initial commit - Laravel + Vue structure"
+   -Lier à dépôt GitHub
+    git remote add origin https://github.com/jouvence13/Bigscren-survery.git
+    git branch -M main
+    git push -u origin main
+
+4- cree la base de donnée et la configurer dans la base de donnée dans le .env
+   vérifiée la connection a la base de donnée
+    php artisan config:clear
+    php artisan migrate
+
+5- Au niveau de la base de donnée 
+    Générer les migrations 
+    php artisan make:migration create_questions_table
+    php artisan make:migration create_respondents_table
+    php artisan make:migration create_responses_table
+    php artisan migrate 

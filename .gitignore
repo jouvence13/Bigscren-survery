@@ -1,0 +1,10 @@
+# Ignorer les dépendances backend
+/backend/vendor/
+/backend/.env
+
+# Ignorer les dépendances frontend
+/frontend/node_modules/
+/frontend/dist/
+
+# Général
+.DS_Store

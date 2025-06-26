@@ -60,3 +60,12 @@
    php artisan make:model Question
    php artisan make:model Respondent
    php artisan make:model Response
+
+7- Crée le seeder
+   php artisan make:seeder QuestionSeeder
+   Mettre le contenue du seeders
+
+8- Enregistre le seeder dans DatabaseSeeder.php
+
+9- Exécute le seed
+    php artisan db:seed

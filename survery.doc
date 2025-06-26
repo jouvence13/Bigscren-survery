@@ -55,3 +55,8 @@
     php artisan make:migration create_respondents_table
     php artisan make:migration create_responses_table
     php artisan migrate 
+
+6- Créer les models Eloquent
+   php artisan make:model Question
+   php artisan make:model Respondent
+   php artisan make:model Response

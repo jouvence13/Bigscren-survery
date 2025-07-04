@@ -69,3 +69,7 @@
 
 9- Exécute le seed
     php artisan db:seed
+
+10- un contrôleur API pour récupérer les questions et les reponses
+   php artisan make:controller Api/QuestionController
+   php artisan make:controller Api/ResponseController

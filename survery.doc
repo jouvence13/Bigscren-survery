@@ -73,3 +73,8 @@
 10- un contrôleur API pour récupérer les questions et les reponses
    php artisan make:controller Api/QuestionController
    php artisan make:controller Api/ResponseController
+
+11- crée les routes
+
+12- crée AdminController
+    php artisan make:controller Api/AdminController

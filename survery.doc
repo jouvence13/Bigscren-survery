@@ -78,3 +78,17 @@
 
 12- crée AdminController
     php artisan make:controller Api/AdminController
+
+Méthode : POST
+
+URL : http://127.0.0.1:8000/api/login
+
+Body JSON :
+
+json
+Copier
+Modifier
+{
+  "email": "test@example.com",
+  "password": "password"
+}

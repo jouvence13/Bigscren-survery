@@ -17,9 +17,9 @@ Route::get('/questions', [QuestionController::class, 'index']);
 Route::post('/responses', [ResponseController::class, 'store']);
 Route::get('/result/{token}', [ResponseController::class, 'showByToken']);
 
-//Admin-only routes (protected by auth middleware)
-Route::middleware('auth')->prefix('admin')->group(function () {
+// Admin-only routes (protected by JWT auth)
+Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('/respondents', [AdminController::class, 'index']);
     Route::get('/respondents/{token}', [AdminController::class, 'show']);
-    Route::delete('/respondents/{id}', [AdminController::class, 'destroy']); // optionnel
+    Route::delete('/respondents/{id}', [AdminController::class, 'destroy']);
 });

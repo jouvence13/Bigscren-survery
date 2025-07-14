@@ -20,8 +20,8 @@ class ResponseController extends Controller
         $data = $request->validate([
             'email' => 'required|email',
             'responses' => 'required|array|size:20', // exactly 20
-            'responses.*.question_id' => 'required|exists:questions,id',
-            'responses.*.answer' => 'required|string',
+          /*   'responses.*.question_id' => 'required|exists:questions,id',
+            'responses.*.answer' => 'required|string', */
         ]);
 
         // 2. Check if this email has already submitted responses

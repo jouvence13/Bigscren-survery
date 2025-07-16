@@ -11,8 +11,24 @@ class AdminController extends Controller
 {
     // Liste des répondants
     public function index()
-    {
-        return response()->json(Respondent::select('id', 'email', 'token')->get());
+   {
+        // On récupère tous les répondants avec leurs réponses et les questions associées
+        $respondents = Respondent::with(['responses.question'])->get();
+
+        $data = $respondents->map(function ($respondent) {
+            return [
+                'email' => $respondent->email,
+                'responses' => $respondent->responses->map(function ($response) {
+                    return [
+                        'question_number' => $response->question->id,
+                        'question_body' => $response->question->body,
+                        'answer' => $response->answer,
+                    ];
+                }),
+            ];
+        });
+
+        return response()->json($data);
     }
 
     // Voir les réponses d’un respondent (admin)

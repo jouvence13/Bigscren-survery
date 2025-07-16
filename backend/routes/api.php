@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\QuestionController;
 use App\Http\Controllers\Api\ResponseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Api\AdminController;
-
+use App\Http\Controllers\Api\AdminStatsController;
 // Auth routes
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
@@ -23,3 +23,8 @@ Route::middleware('auth:api')->prefix('admin')->group(function () {
     Route::get('/respondents/{token}', [AdminController::class, 'show']);
     Route::delete('/respondents/{id}', [AdminController::class, 'destroy']);
 });
+
+Route::get('/dashboard-stats', [AdminStatsController::class, 'getDashboardStats']);
+
+
+

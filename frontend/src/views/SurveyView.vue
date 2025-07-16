@@ -7,10 +7,12 @@ const questions = ref([])
 const answers = ref({})
 const submitted = ref(false)
 const token = ref('')
+const loading = ref(true) // 👈 Indique si on attend encore les questions
 
 const router = useRouter()
 const tokenLink = computed(() => `/result/${token.value}`)
 
+// Charger les questions depuis l'API
 const fetchSurvey = async () => {
   try {
     const res = await axios.get('/questions')
@@ -20,9 +22,12 @@ const fetchSurvey = async () => {
     })
   } catch (e) {
     console.error('Failed to load questions', e)
+  } finally {
+    loading.value = false // 👈 Fin du chargement
   }
 }
 
+// Convertir les options JSON d’une question (pour les questions type A)
 const parseOptions = (json) => {
   try {
     return JSON.parse(json) || []
@@ -31,6 +36,7 @@ const parseOptions = (json) => {
   }
 }
 
+// Soumettre les réponses du formulaire
 const submitSurvey = async () => {
   const emailAnswer = answers.value[questions.value[0]?.id] || ''
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -65,24 +71,31 @@ const submitSurvey = async () => {
 onMounted(fetchSurvey)
 </script>
 
+
 <template>
   <div class="bg-light py-5">
     <div class="container shadow p-4 rounded bg-white">
       <h2 class="text-center text-primary mb-4">📜 Bigscreen Survey</h2>
       <p class="text-center text-muted mb-5">Please answer all 20 questions accurately.</p>
 
-      <form @submit.prevent="submitSurvey" v-if="questions.length && !submitted">
-        <div
-          v-for="(question, index) in questions"
-          :key="question.id"
-          class="mb-4"
-        >
+      <!-- Spinner pendant le chargement -->
+      <div v-if="loading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading questions...</p>
+      </div>
+
+      <!-- Formulaire -->
+      <form @submit.prevent="submitSurvey" v-if="!loading && questions.length && !submitted">
+        <div v-for="(question, index) in questions" :key="question.id" class="mb-4">
           <div class="mb-2">
             <span class="badge bg-primary">Q{{ index + 1 }}</span>
             <strong class="ms-2">{{ question.body }}</strong>
           </div>
 
           <div class="response-box mt-2">
+            <!-- Type A -->
             <select
               v-if="question.type === 'A'"
               v-model="answers[question.id]"
@@ -99,6 +112,7 @@ onMounted(fetchSurvey)
               </option>
             </select>
 
+            <!-- Type B -->
             <input
               v-else-if="question.type === 'B'"
               type="text"
@@ -109,6 +123,7 @@ onMounted(fetchSurvey)
               placeholder="Type your answer here"
             />
 
+            <!-- Type C -->
             <select
               v-else-if="question.type === 'C'"
               v-model="answers[question.id]"
@@ -122,12 +137,12 @@ onMounted(fetchSurvey)
         </div>
 
         <div class="text-center mt-5">
-          <button type="submit" class="btn btn-lg btn-success px-5">Finaliser</button>
+          <button type="submit" class="btn btn-lg btn-success px-5">Finalize</button>
         </div>
       </form>
     </div>
 
-    <!-- MODAL -->
+    <!-- MODAL de confirmation -->
     <div v-if="submitted" class="modal-overlay">
       <div class="modal-box">
         <h4 class="text-success mb-3">🎉 Thank you for your answers!</h4>
@@ -144,6 +159,7 @@ onMounted(fetchSurvey)
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .container {

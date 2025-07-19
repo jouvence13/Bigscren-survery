@@ -4,23 +4,30 @@
     <aside
       id="sidebar"
       ref="sidebar"
-      class="bg-dark text-white p-3 sidebar"
+      class="bg-dark text-white p-3 sidebar d-flex flex-column justify-between"
       :class="{ hide: isSidebarHidden }"
     >
-      <h4 class="text-center mb-4">Bigscreen</h4>
-      <nav class="nav flex-column side-menu">
-        <router-link to="/admin/dashboard" class="nav-link text-white">
-          Dashboard
-        </router-link>
-        <router-link to="/admin/questions" class="nav-link text-white">
-          Questionnaire
-        </router-link>
-        <router-link to="/admin/responses" class="nav-link text-white">
-          Responses
-        </router-link>
-      </nav>
+      <div>
+        <h4 class="text-center mb-4">Bigscreen</h4>
+        <nav class="nav flex-column side-menu mb-4">
+          <router-link to="/admin/dashboard" class="nav-link text-white">
+            Dashboard
+          </router-link>
+          <router-link to="/admin/questions" class="nav-link text-white">
+            Questionnaire
+          </router-link>
+          <router-link to="/admin/responses" class="nav-link text-white">
+            Responses
+          </router-link>
+        </nav>
+      </div>
 
-    
+      <!-- Logout button -->
+      <div class="mt-auto text-center">
+        <button @click="handleLogout" class="btn btn-danger btn-sm w-100">
+          Logout
+        </button>
+      </div>
     </aside>
 
     <!-- CONTENT -->
@@ -40,30 +47,19 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import api from '@/api'
+
+const router = useRouter()
 
 const sidebar = ref(null)
 const searchForm = ref(null)
 const searchIcon = ref(null)
 const isSidebarHidden = ref(false)
-const isDarkMode = ref(false)
 
 // Toggle sidebar visibility
 const toggleSidebar = () => {
   isSidebarHidden.value = !isSidebarHidden.value
-}
-
-// Toggle search visibility for mobile
-const toggleSearch = (e) => {
-  if (window.innerWidth < 576) {
-    e.preventDefault()
-    searchForm.value?.classList.toggle('show')
-    const icon = searchIcon.value?.classList
-    if (searchForm.value.classList.contains('show')) {
-      icon?.replace('bx-search', 'bx-x')
-    } else {
-      icon?.replace('bx-x', 'bx-search')
-    }
-  }
 }
 
 // Responsive logic
@@ -81,6 +77,18 @@ onMounted(() => {
   handleResize()
   window.addEventListener('resize', handleResize)
 })
+
+// Logout function
+const handleLogout = async () => {
+  try {
+    await api.post('/logout')
+  } catch (err) {
+    console.error('Erreur lors de la déconnexion', err)
+  } finally {
+    localStorage.removeItem('token')
+    router.push('/admin/administration')
+  }
+}
 </script>
 
 <style scoped>

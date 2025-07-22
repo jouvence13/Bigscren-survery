@@ -6,7 +6,7 @@ import SurveyView from '../views/SurveyView.vue'
 import ResultView from '../views/ResultView.vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 
-// Ajoute ces deux imports :
+// Pages admin
 import QuestionsView from '../views/administration/QuestionsView.vue'
 import ResponsesView from '../views/administration/ResponsesView.vue'
 
@@ -15,10 +15,10 @@ const routes = [
   { path: '/', component: SurveyView },
   { path: '/result/:token', component: ResultView },
 
-  // Login (pas de layout)
+  // Login
   { path: '/admin/administration', component: LoginView },
 
-  // Routes protégées avec layout
+  // Admin protégé
   {
     path: '/admin',
     component: DefaultLayout,
@@ -34,6 +34,19 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+})
+
+// Garde de navigation : redirige si pas connecté
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('token')
+
+  if (to.path.startsWith('/admin') && to.path !== '/admin/administration') {
+    if (!isAuthenticated) {
+      return next('/admin/administration')
+    }
+  }
+
+  next()
 })
 
 export default router

@@ -3,28 +3,43 @@
     <!-- SIDEBAR -->
     <aside
       id="sidebar"
-      ref="sidebar"
-      class="bg-dark text-white p-3 sidebar d-flex flex-column justify-between"
+      class="bg-dark text-white p-3 sidebar d-flex flex-column justify-content-between"
       :class="{ hide: isSidebarHidden }"
     >
       <div>
         <h4 class="text-center mb-4">Bigscreen</h4>
-        <nav class="nav flex-column side-menu mb-4">
-          <router-link to="/admin/dashboard" class="nav-link text-white">
+        <nav class="nav flex-column side-menu">
+          <router-link
+            to="/admin/dashboard"
+            class="nav-link text-white d-flex align-items-center gap-2"
+            @click="handleNavClick"
+          >
+            <i class="bx bx-pie-chart-alt"></i>
             Dashboard
           </router-link>
-          <router-link to="/admin/questions" class="nav-link text-white">
+          <router-link
+            to="/admin/questions"
+            class="nav-link text-white d-flex align-items-center gap-2"
+            @click="handleNavClick"
+          >
+            <i class="bx bx-list-ul"></i>
             Questionnaire
           </router-link>
-          <router-link to="/admin/responses" class="nav-link text-white">
+          <router-link
+            to="/admin/responses"
+            class="nav-link text-white d-flex align-items-center gap-2"
+            @click="handleNavClick"
+          >
+            <i class="bx bx-spreadsheet"></i>
             Responses
           </router-link>
         </nav>
       </div>
 
-      <!-- Logout button -->
-      <div class="mt-auto text-center">
-        <button @click="handleLogout" class="btn btn-danger btn-sm w-100">
+      <!-- Logout -->
+      <div class="text-center mt-4">
+        <button @click="handleLogout" class="btn btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2">
+          <i class="bx bx-log-out"></i>
           Logout
         </button>
       </div>
@@ -34,7 +49,8 @@
     <section id="content" class="flex-grow-1 d-flex flex-column">
       <!-- NAVBAR -->
       <nav class="navbar bg-white border-bottom px-3 py-2 d-flex align-items-center">
-        <i class="bx bx-menu fs-4 me-3" @click="toggleSidebar"></i>
+        <i class="bx bx-menu fs-4 me-3 d-md-none" @click="toggleSidebar"></i>
+        <span class="fw-bold">Administration</span>
       </nav>
 
       <!-- MAIN -->
@@ -46,30 +62,29 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/api'
 
 const router = useRouter()
-
-const sidebar = ref(null)
-const searchForm = ref(null)
-const searchIcon = ref(null)
 const isSidebarHidden = ref(false)
 
-// Toggle sidebar visibility
+// Toggle sidebar
 const toggleSidebar = () => {
   isSidebarHidden.value = !isSidebarHidden.value
 }
 
-// Responsive logic
-const handleResize = () => {
+// Ferme la sidebar automatiquement sur mobile
+const handleNavClick = () => {
   if (window.innerWidth < 768) {
     isSidebarHidden.value = true
   }
-  if (window.innerWidth > 576) {
-    searchForm.value?.classList.remove('show')
-    searchIcon.value?.classList.replace('bx-x', 'bx-search')
+}
+
+// Responsive
+const handleResize = () => {
+  if (window.innerWidth < 768) {
+    isSidebarHidden.value = true
   }
 }
 
@@ -78,7 +93,7 @@ onMounted(() => {
   window.addEventListener('resize', handleResize)
 })
 
-// Logout function
+// Logout
 const handleLogout = async () => {
   try {
     await api.post('/logout')
@@ -94,12 +109,12 @@ const handleLogout = async () => {
 <style scoped>
 .sidebar {
   width: 250px;
-  transition: all 0.3s;
+  transition: transform 0.3s ease;
 }
 .sidebar.hide {
   transform: translateX(-100%);
   position: absolute;
-  z-index: 100;
+  z-index: 999;
 }
 .nav-link.router-link-active {
   font-weight: bold;
@@ -107,20 +122,10 @@ const handleLogout = async () => {
   border-radius: 5px;
   padding-left: 10px;
 }
-.form-input.show {
-  display: flex !important;
-}
-.switch-mode input[type='checkbox'] {
-  accent-color: #0d6efd;
-}
-body.dark {
-  background: #121212;
-  color: #f0f0f0;
-}
-body.dark .bg-white {
-  background-color: #1e1e2f !important;
-}
-body.dark .text-white {
-  color: #f0f0f0 !important;
+@media (min-width: 768px) {
+  .sidebar {
+    transform: translateX(0) !important;
+    position: relative;
+  }
 }
 </style>

@@ -7,7 +7,7 @@ const questions = ref([])
 const answers = ref({})
 const submitted = ref(false)
 const token = ref('')
-const loading = ref(true) // 👈 Indique si on attend encore les questions
+const loading = ref(true) //Indique si on attend encore les questions
 
 const router = useRouter()
 const tokenLink = computed(() => `/result/${token.value}`)
@@ -23,7 +23,7 @@ const fetchSurvey = async () => {
   } catch (e) {
     console.error('Failed to load questions', e)
   } finally {
-    loading.value = false // 👈 Fin du chargement
+    loading.value = false //Fin du chargement
   }
 }
 

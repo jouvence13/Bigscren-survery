@@ -2,10 +2,10 @@
   <div class="p-4">
     <h2 class="mb-4 fw-bold text-center">List of Survey Questions</h2>
 
-    <!-- Loader -->
+    
     <div v-if="loading" class="text-center text-primary">Loading questions...</div>
 
-    <!-- Table -->
+   
     <table v-else class="table table-bordered table-striped">
       <thead class="table-primary">
         <tr>
@@ -29,7 +29,7 @@
 import { ref, onMounted } from 'vue'
 import axios from '@/api.js'
 
-// Références pour les données
+
 const questions = ref([])
 const loading = ref(true)
 

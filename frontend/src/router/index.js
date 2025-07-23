@@ -6,7 +6,7 @@ import SurveyView from '../views/SurveyView.vue'
 import ResultView from '../views/ResultView.vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 
-// Pages admin
+
 import QuestionsView from '../views/administration/QuestionsView.vue'
 import ResponsesView from '../views/administration/ResponsesView.vue'
 
@@ -36,7 +36,7 @@ const router = createRouter({
   routes
 })
 
-// Garde de navigation : redirige si pas connecté
+
 router.beforeEach((to, from, next) => {
   const isAuthenticated = !!localStorage.getItem('token')
 

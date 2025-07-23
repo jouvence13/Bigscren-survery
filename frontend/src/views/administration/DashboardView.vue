@@ -2,12 +2,12 @@
   <div>
     <h2 class="mb-4 fw-bold text-center">Survey Insights</h2>
 
-    <!-- Loader pendant le chargement -->
+    
     <div v-if="isLoading" class="loading">Loading charts...</div>
 
-    <!-- Grille de graphiques -->
+  
     <div class="chart-grid" v-else>
-      <!-- Pie chart for Question 6: Headsets -->
+  
       <div class="chart-box" v-if="question6.series.length">
         <ApexChart
           type="pie"
@@ -17,7 +17,7 @@
         />
       </div>
 
-      <!-- Pie chart for Question 7: Stores -->
+    
       <div class="chart-box" v-if="question7.series.length">
         <ApexChart
           type="pie"
@@ -27,7 +27,7 @@
         />
       </div>
 
-      <!-- Pie chart for Question 10: Usage -->
+      
       <div class="chart-box" v-if="question10.series.length">
         <ApexChart
           type="pie"
@@ -37,7 +37,7 @@
         />
       </div>
 
-      <!-- Radar chart for quality (Q11–Q15) -->
+      
       <div class="chart-box" v-if="radarChart.series.length">
         <ApexChart
           type="radar"
@@ -55,14 +55,14 @@ import { ref, onMounted } from 'vue'
 import ApexChart from 'vue3-apexcharts'
 import axios from '@/api.js'
 
-// Refs pour stocker les données des graphiques
+
 const question6 = ref({ series: [], options: {} })
 const question7 = ref({ series: [], options: {} })
 const question10 = ref({ series: [], options: {} })
 const radarChart = ref({ series: [], options: {} })
-const isLoading = ref(true) // état de chargement
+const isLoading = ref(true) 
 
-// Récupération des statistiques via API
+
 const fetchStats = async () => {
   try {
     const res = await axios.get('/dashboard-stats')
@@ -116,7 +116,7 @@ const fetchStats = async () => {
   } catch (error) {
     console.error('Failed to fetch dashboard stats:', error)
   } finally {
-    isLoading.value = false // on désactive le loader une fois que tout est chargé
+    isLoading.value = false 
   }
 }
 
@@ -129,7 +129,7 @@ h2 {
   margin-bottom: 2rem;
 }
 
-/* Grille des graphiques */
+
 .chart-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -137,7 +137,7 @@ h2 {
   padding: 0 1rem;
 }
 
-/* Style boîte graphique */
+
 .chart-box {
   background-color: #fff;
   border-radius: 10px;
@@ -145,7 +145,7 @@ h2 {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Loader centré */
+
 .loading {
   text-align: center;
   font-size: 1.25rem;

@@ -11,7 +11,7 @@
         class="mb-5"
       >
         <h5 class="mb-3">
-          👤 Respondent {{ index + 1 }} — <span class="text-muted">{{ respondent.email }}</span>
+          Respondent {{ index + 1 }} — <span class="text-muted">{{ respondent.email }}</span>
         </h5>
 
         <table class="table table-bordered table-hover">
@@ -45,10 +45,10 @@ import axios from '@/api.js'
 const responses = ref([])
 const loading = ref(true)
 
-// Appel à l'API pour récupérer toutes les réponses des sondés
+
 const fetchAllResponses = async () => {
   try {
-    const res = await axios.get('/admin/respondents') // Assure-toi que cette route retourne le format attendu
+    const res = await axios.get('/admin/respondents') 
     responses.value = res.data
   } catch (error) {
     console.error('Failed to fetch responses:', error)
